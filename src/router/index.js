@@ -29,12 +29,128 @@ export const constantRouterMap = [
       path: 'home',
       name: 'home',
       component: () => import('@/views/home/index'),
-      meta: {title: '首页', icon: 'home'}
+      meta: {title: '首页驾驶舱', icon: 'home'}
     }]
   }
 ]
 
 export const asyncRouterMap = [
+  {
+    path: '/movie',
+    component: Layout,
+    redirect: '/movie/order',
+    name: 'movie',
+    meta: {title: '电影票', icon: 'order'},
+    children: [
+      {
+        path: 'movieOrder',
+        name: 'movieOrder',
+        component: () => import('@/views/movie/order/index'),
+        meta: {title: '电影票订单', icon: 'product-list'}
+      },
+      {
+        path: 'movieHot',
+        name: 'movieHot',
+        component: () => import('@/views/movie/movieHot'),
+        meta: {title: '电影热度', icon: 'order-setting'}
+      },
+      {
+        path: 'movieRank',
+        name: 'movieRank',
+        component: () => import('@/views/movie/movieRank'),
+        meta: {title: '电影排名', icon: 'order-return'}
+      },
+      {
+        path: 'areaTopic',
+        name: 'areaTopic',
+        component: () => import('@/views/movie/areaTopic'),
+        meta: {title: '区域统计', icon: 'order-return-reason'}
+      }
+    ]
+  },
+  {
+    path: '/show',
+    component: Layout,
+    redirect: '/show/order',
+    name: 'show',
+    meta: {title: '演出票', icon: 'product'},
+    children: [{
+      path: 'showOrder',
+      name: 'showOrder',
+      component: () => import('@/views/show/order/index'),
+      meta: {title: '演出票订单', icon: 'product-list'}
+    },
+      {
+        path: 'showHot',
+        name: 'showHot',
+        component: () => import('@/views/show/showHot'),
+        meta: {title: '演出热度', icon: 'product-attr'}
+      },
+      {
+        path: 'showRank',
+        name: 'showRank',
+        component: () => import('@/views/show/showRank'),
+        meta: {title: '演出排名', icon: 'product-add'},
+      },
+      {
+        path: 'areaTopic',
+        name: 'areaTopic',
+        component: () => import('@/views/show/areaTopic'),
+        meta: {title: '区域统计', icon: 'product-cate'}
+      }
+    ]
+  },
+  {
+    path:'/advertise',
+    component: Layout,
+    redirect: '/advertise/adConvert',
+    name: 'advertise',
+    meta: {title: '广告', icon: 'sms'},
+    children: [
+      {
+        path: 'adConvert',
+        name: 'adConvert',
+        component: () => import('@/views/advertise/index'),
+        meta: {title: '广告转化', icon: 'sms-flash'}
+      // },
+      // {
+      //   path: 'coupon',
+      //   name: 'coupon',
+      //   component: () => import('@/views/sms/coupon/index'),
+      //   meta: {title: '优惠券列表', icon: 'sms-coupon'}
+      // },
+      // {
+      //   path: 'brand',
+      //   name: 'homeBrand',
+      //   component: () => import('@/views/sms/brand/index'),
+      //   meta: {title: '品牌推荐', icon: 'product-brand'}
+      // },
+      // {
+      //   path: 'new',
+      //   name: 'homeNew',
+      //   component: () => import('@/views/sms/new/index'),
+      //   meta: {title: '新品推荐', icon: 'sms-new'}
+      // },
+      // {
+      //   path: 'hot',
+      //   name: 'homeHot',
+      //   component: () => import('@/views/sms/hot/index'),
+      //   meta: {title: '人气推荐', icon: 'sms-hot'}
+      // },
+      // {
+      //   path: 'subject',
+      //   name: 'homeSubject',
+      //   component: () => import('@/views/sms/subject/index'),
+      //   meta: {title: '专题推荐', icon: 'sms-subject'}
+      // },
+      // {
+      //   path: 'advertise',
+      //   name: 'homeAdvertise',
+      //   component: () => import('@/views/sms/advertise/index'),
+      //   meta: {title: '广告列表', icon: 'sms-ad'}
+       }
+    ]
+  },
   {
     path: '/pms',
     component: Layout,
@@ -183,6 +299,7 @@ export const asyncRouterMap = [
       }
     ]
   },
+  
   {
     path:'/sms',
     component: Layout,

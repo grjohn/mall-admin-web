@@ -1,649 +1,338 @@
 <template> 
-  <div class="app-container">
-    <el-card class="filter-container" shadow="never">
-      <div>
-        <i class="el-icon-search"></i>
-        <span>筛选搜索</span>
-        <el-button
-          style="float: right"
-          @click="handleSearchList()"
-          type="primary"
-          size="small">
-          查询结果
-        </el-button>
-        <el-button
-          style="float: right;margin-right: 15px"
-          @click="handleResetSearch()"
-          size="small">
-          重置
-        </el-button>
+  <div class="statistics-layout">
+      <div class="layout-title">电影票订单情况</div>
+      <el-row :gutter="24" class="font-medium">
+        <el-col :span="6" >
+          <div style="padding-left: 100px;padding-top: 60px">
+            <img :src="img_home_order" class="total-icon">
+            <div class="total-title">今日订单总数</div>
+            <div class="total-value">103242</div>
+          </div>
+        </el-col>
+        
+        
+        <el-col :span="6">
+          <div style="padding-left: 100px;padding-top: 60px">
+            <img :src="img_home_today_amount" class="total-icon">
+            <div class="total-title">今日订单总额</div>
+            <div class="total-value">￥6954392.00</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div style="padding-left: 100px;padding-top: 60px">
+            <img :src="img_home_order" class="total-icon">
+            <div class="total-title">昨日订单总数</div>
+            <div class="total-value">92311</div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div style="padding-left: 100px;padding-top: 60px">
+            <img :src="img_home_today_amount" class="total-icon">
+            <div class="total-title">昨日订单总额</div>
+            <div class="total-value">￥5813458.00</div>
+          </div>
+        </el-col>
+      </el-row>
+      <div class="un-handle-content">
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">电影票订单</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">电影票订单金额</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">演出票访问量</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">演出票订单</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">演出票订单金额</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">演出票访问量</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">大礼包订单</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">大礼包订单金额</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+          <el-col :span="8">
+            <div class="un-handle-item">
+              <span class="font-medium">大礼包访问量</span>
+              <span style="float: right" class="color-danger">(10)</span>
+            </div>
+          </el-col>
+        </el-row>
       </div>
-      <div style="margin-top: 15px">
-        <el-form :inline="true" :model="listQuery" size="small" label-width="140px">
-          <el-form-item label="输入搜索：">
-            <el-input style="width: 203px" v-model="listQuery.keyword" placeholder="商品名称"></el-input>
-          </el-form-item>
-          <el-form-item label="商品货号：">
-            <el-input style="width: 203px" v-model="listQuery.productSn" placeholder="商品货号"></el-input>
-          </el-form-item>
-          <el-form-item label="商品分类：">
-            <el-cascader
-              clearable
-              v-model="selectProductCateValue"
-              :options="productCateOptions">
-            </el-cascader>
-          </el-form-item>
-          <el-form-item label="商品品牌：">
-            <el-select v-model="listQuery.brandId" placeholder="请选择品牌" clearable>
-              <el-option
-                v-for="item in brandOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="上架状态：">
-            <el-select v-model="listQuery.publishStatus" placeholder="全部" clearable>
-              <el-option
-                v-for="item in publishStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="审核状态：">
-            <el-select v-model="listQuery.verifyStatus" placeholder="全部" clearable>
-              <el-option
-                v-for="item in verifyStatusOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-card>
-    <el-card class="operate-container" shadow="never">
-      <i class="el-icon-tickets"></i>
-      <span>数据列表</span>
-      <el-button
-        class="btn-add"
-        @click="handleAddProduct()"
-        size="mini">
-        添加
-      </el-button>
-    </el-card>
-    <div class="table-container">
-      <el-table ref="productTable"
-                :data="list"
-                style="width: 100%"
-                @selection-change="handleSelectionChange"
-                v-loading="listLoading"
-                border>
-        <el-table-column type="selection" width="60" align="center"></el-table-column>
-        <el-table-column label="编号" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.id}}</template>
-        </el-table-column>
-        <el-table-column label="商品图片" width="120" align="center">
-          <template slot-scope="scope"><img style="height: 80px" :src="scope.row.pic"></template>
-        </el-table-column>
-        <el-table-column label="商品名称" align="center">
-          <template slot-scope="scope">
-            <p>{{scope.row.name}}</p>
-            <p>品牌：{{scope.row.brandName}}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="价格/货号" width="120" align="center">
-          <template slot-scope="scope">
-            <p>价格：￥{{scope.row.price}}</p>
-            <p>货号：{{scope.row.productSn}}</p>
-          </template>
-        </el-table-column>
-        <el-table-column label="标签" width="140" align="center">
-          <template slot-scope="scope">
-            <p>上架：
-              <el-switch
-                @change="handlePublishStatusChange(scope.$index, scope.row)"
-                :active-value="1"
-                :inactive-value="0"
-                v-model="scope.row.publishStatus">
-              </el-switch>
-            </p>
-            <p>新品：
-              <el-switch
-                @change="handleNewStatusChange(scope.$index, scope.row)"
-                :active-value="1"
-                :inactive-value="0"
-                v-model="scope.row.newStatus">
-              </el-switch>
-            </p>
-            <p>推荐：
-              <el-switch
-                @change="handleRecommendStatusChange(scope.$index, scope.row)"
-                :active-value="1"
-                :inactive-value="0"
-                v-model="scope.row.recommandStatus">
-              </el-switch>
-            </p>
-          </template>
-        </el-table-column>
-        <el-table-column label="排序" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.sort}}</template>
-        </el-table-column>
-        <el-table-column label="SKU库存" width="100" align="center">
-          <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" @click="handleShowSkuEditDialog(scope.$index, scope.row)" circle></el-button>
-          </template>
-        </el-table-column>
-        <el-table-column label="销量" width="100" align="center">
-          <template slot-scope="scope">{{scope.row.sale}}</template>
-        </el-table-column>
-        <el-table-column label="审核状态" width="100" align="center">
-          <template slot-scope="scope">
-            <p>{{scope.row.verifyStatus | verifyStatusFilter}}</p>
-            <p>
-              <el-button
-                type="text"
-                @click="handleShowVerifyDetail(scope.$index, scope.row)">审核详情
-              </el-button>
-            </p>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" width="160" align="center">
-          <template slot-scope="scope">
-            <p>
-              <el-button
-                size="mini"
-                @click="handleShowProduct(scope.$index, scope.row)">查看
-              </el-button>
-              <el-button
-                size="mini"
-                @click="handleUpdateProduct(scope.$index, scope.row)">编辑
-              </el-button>
-            </p>
-            <p>
-              <el-button
-                size="mini"
-                @click="handleShowLog(scope.$index, scope.row)">日志
-              </el-button>
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)">删除
-              </el-button>
-            </p>
-          </template>
-        </el-table-column>
-      </el-table>
     </div>
-    <div class="batch-operate-container">
-      <el-select
-        size="small"
-        v-model="operateType" placeholder="批量操作">
-        <el-option
-          v-for="item in operates"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-button
-        style="margin-left: 20px"
-        class="search-button"
-        @click="handleBatchOperate()"
-        type="primary"
-        size="small">
-        确定
-      </el-button>
-    </div>
-    <div class="pagination-container">
-      <el-pagination
-        background
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        layout="total, sizes,prev, pager, next,jumper"
-        :page-size="listQuery.pageSize"
-        :page-sizes="[5,10,15]"
-        :current-page.sync="listQuery.pageNum"
-        :total="total">
-      </el-pagination>
-    </div>
-    <el-dialog
-      title="编辑货品信息"
-      :visible.sync="editSkuInfo.dialogVisible"
-      width="40%">
-      <span>商品货号：</span>
-      <span>{{editSkuInfo.productSn}}</span>
-      <el-input placeholder="按sku编号搜索" v-model="editSkuInfo.keyword" size="small" style="width: 50%;margin-left: 20px">
-        <el-button slot="append" icon="el-icon-search" @click="handleSearchEditSku"></el-button>
-      </el-input>
-      <el-table style="width: 100%;margin-top: 20px"
-                :data="editSkuInfo.stockList"
-                border>
-        <el-table-column
-          label="SKU编号"
-          align="center">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.skuCode"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column
-          v-for="(item,index) in editSkuInfo.productAttr"
-          :label="item.name"
-          :key="item.id"
-          align="center">
-          <template slot-scope="scope">
-            {{getProductSkuSp(scope.row,index)}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="销售价格"
-          width="80"
-          align="center">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.price"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="商品库存"
-          width="80"
-          align="center">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.stock"></el-input>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="库存预警值"
-          width="100"
-          align="center">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.lowStock"></el-input>
-          </template>
-        </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="editSkuInfo.dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="handleEditSkuConfirm">确 定</el-button>
-      </span>
-    </el-dialog>
-  </div>
 </template>
 <script>
-  import {
-    fetchList,
-    updateDeleteStatus,
-    updateNewStatus,
-    updateRecommendStatus,
-    updatePublishStatus
-  } from '@/api/product'
-  import {fetchList as fetchSkuStockList,update as updateSkuStockList} from '@/api/skuStock'
-  import {fetchList as fetchProductAttrList} from '@/api/productAttr'
-  import {fetchList as fetchBrandList} from '@/api/brand'
-  import {fetchListWithChildren} from '@/api/productCate'
 
-  const defaultListQuery = {
-    keyword: null,
-    pageNum: 1,
-    pageSize: 5,
-    publishStatus: null,
-    verifyStatus: null,
-    productSn: null,
-    productCategoryId: null,
-    brandId: null
+  import {str2Date} from '@/utils/date';
+  import img_home_order from '@/assets/images/home_order.png';
+  import img_home_today_amount from '@/assets/images/home_today_amount.png';
+  import img_home_yesterday_amount from '@/assets/images/home_yesterday_amount.png';
+  const DATA_FROM_BACKEND = {
+    columns: ['date', 'orderCount','orderAmount'],
+    rows: [
+      {date: '2020-11-01', orderCount: 10, orderAmount: 1093},
+      {date: '2020-11-02', orderCount: 20, orderAmount: 2230},
+      {date: '2020-11-03', orderCount: 33, orderAmount: 3623},
+      {date: '2020-11-04', orderCount: 50, orderAmount: 6423},
+      {date: '2020-11-05', orderCount: 80, orderAmount: 8492},
+      {date: '2020-11-06', orderCount: 60, orderAmount: 6293},
+      {date: '2020-11-07', orderCount: 20, orderAmount: 2293},
+      {date: '2020-11-08', orderCount: 60, orderAmount: 6293},
+      {date: '2020-11-09', orderCount: 50, orderAmount: 5293},
+      {date: '2020-11-10', orderCount: 30, orderAmount: 3293},
+      {date: '2020-11-11', orderCount: 20, orderAmount: 2293},
+      {date: '2020-11-12', orderCount: 80, orderAmount: 8293},
+      {date: '2020-11-13', orderCount: 100, orderAmount: 10293},
+      {date: '2020-11-14', orderCount: 10, orderAmount: 1293},
+      {date: '2020-11-15', orderCount: 40, orderAmount: 4293}
+    ]
   };
   export default {
-    name: "productList",
+    name: 'home',
     data() {
+      this.resource_uv_settings = {
+        stack: { '用户': ['APP访问', 'H5插件访问','微信访问'] }
+      }
       return {
-        editSkuInfo:{
-          dialogVisible:false,
-          productId:null,
-          productSn:'',
-          productAttributeCategoryId:null,
-          stockList:[],
-          productAttr:[],
-          keyword:null
-        },
-        operates: [
-          {
-            label: "商品上架",
-            value: "publishOn"
-          },
-          {
-            label: "商品下架",
-            value: "publishOff"
-          },
-          {
-            label: "设为推荐",
-            value: "recommendOn"
-          },
-          {
-            label: "取消推荐",
-            value: "recommendOff"
-          },
-          {
-            label: "设为新品",
-            value: "newOn"
-          },
-          {
-            label: "取消新品",
-            value: "newOff"
-          },
-          {
-            label: "转移到分类",
-            value: "transferCategory"
-          },
-          {
-            label: "移入回收站",
-            value: "recycle"
-          }
-        ],
-        operateType: null,
-        listQuery: Object.assign({}, defaultListQuery),
-        list: null,
-        total: null,
-        listLoading: true,
-        selectProductCateValue: null,
-        multipleSelection: [],
-        productCateOptions: [],
-        brandOptions: [],
-        publishStatusOptions: [{
-          value: 1,
-          label: '上架'
-        }, {
-          value: 0,
-          label: '下架'
-        }],
-        verifyStatusOptions: [{
-          value: 1,
-          label: '审核通过'
-        }, {
-          value: 0,
-          label: '未审核'
-        }]
-      }
-    },
-    created() {
-      this.getList();
-      this.getBrandList();
-      this.getProductCateList();
-    },
-    watch: {
-      selectProductCateValue: function (newValue) {
-        if (newValue != null && newValue.length == 2) {
-          this.listQuery.productCategoryId = newValue[1];
-        } else {
-          this.listQuery.productCategoryId = null;
-        }
-
-      }
-    },
-    filters: {
-      verifyStatusFilter(value) {
-        if (value === 1) {
-          return '审核通过';
-        } else {
-          return '未审核';
-        }
-      }
-    },
-    methods: {
-      getProductSkuSp(row, index) {
-        let spData = JSON.parse(row.spData);
-        if(spData!=null&&index<spData.length){
-          return spData[index].value;
-        }else{
-          return null;
-        }
-      },
-      getList() {
-        this.listLoading = true;
-        fetchList(this.listQuery).then(response => {
-          this.listLoading = false;
-          this.list = response.data.list;
-          this.total = response.data.total;
-        });
-      },
-      getBrandList() {
-        fetchBrandList({pageNum: 1, pageSize: 100}).then(response => {
-          this.brandOptions = [];
-          let brandList = response.data.list;
-          for (let i = 0; i < brandList.length; i++) {
-            this.brandOptions.push({label: brandList[i].name, value: brandList[i].id});
-          }
-        });
-      },
-      getProductCateList() {
-        fetchListWithChildren().then(response => {
-          let list = response.data;
-          this.productCateOptions = [];
-          for (let i = 0; i < list.length; i++) {
-            let children = [];
-            if (list[i].children != null && list[i].children.length > 0) {
-              for (let j = 0; j < list[i].children.length; j++) {
-                children.push({label: list[i].children[j].name, value: list[i].children[j].id});
-              }
+        pickerOptions: {
+          shortcuts: [{
+            text: '最近一周',
+            onClick(picker) {
+              const end = new Date();
+              let start = new Date();
+              start.setFullYear(2020);
+              start.setMonth(11);
+              start.setDate(3);
+              end.setTime(start.getTime() + 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', [start, end]);
             }
-            this.productCateOptions.push({label: list[i].name, value: list[i].id, children: children});
+          }, {
+            text: '最近一月',
+            onClick(picker) {
+              const end = new Date();
+              let start = new Date();
+              start.setFullYear(2020);
+              start.setMonth(10);
+              start.setDate(10);
+              end.setTime(start.getTime() + 3600 * 1000 * 24 * 30);
+              picker.$emit('pick', [start, end]);
+            }
+          }]
+        },
+        orderCountDate: '',
+        resource_uv_data: {
+          columns: ['小时', 'APP访问', 'H5插件访问','微信访问'],
+          rows: [
+            { '小时': '0-1', 'APP访问': 12210, 'H5插件访问': 1220, '微信访问': 1110 },
+            { '小时': '1-2', 'APP访问': 9740, 'H5插件访问': 970, '微信访问': 800 },
+            { '小时': '2-3', 'APP访问': 8780, 'H5插件访问': 780, '微信访问': 900 },
+            { '小时': '3-4', 'APP访问': 5000, 'H5插件访问': 500, '微信访问': 250 },
+            { '小时': '4-5', 'APP访问': 3790, 'H5插件访问': 920, '微信访问': 450 },
+            { '小时': '5-6', 'APP访问': 320, 'H5插件访问': 30, '微信访问': 60 },
+            { '小时': '6-7', 'APP访问': 920, 'H5插件访问': 20, '微信访问': 140 },
+            { '小时': '7-8', 'APP访问': 720, 'H5插件访问': 70, '微信访问': 220 },
+            { '小时': '8-9', 'APP访问': 3230, 'H5插件访问': 340, '微信访问': 120 },
+            { '小时': '9-10', 'APP访问': 27920, 'H5插件访问': 3430, '微信访问': 450 },
+            { '小时': '10-11', 'APP访问': 37920, 'H5插件访问': 3000, '微信访问': 560 },
+            { '小时': '11-12', 'APP访问': 47920, 'H5插件访问': 4770, '微信访问': 607 },
+            { '小时': '12-13', 'APP访问': 47920, 'H5插件访问': 460, '微信访问': 340 },
+            { '小时': '13-14', 'APP访问': 57920, 'H5插件访问': 990, '微信访问': 1560 },
+            { '小时': '14-15', 'APP访问': 27920, 'H5插件访问': 270, '微信访问': 1660 },
+            { '小时': '15-16', 'APP访问': 37920, 'H5插件访问': 3490, '微信访问': 1440 },
+            { '小时': '16-17', 'APP访问': 37920, 'H5插件访问': 3920, '微信访问': 1890 },
+            { '小时': '17-18', 'APP访问': 27920, 'H5插件访问': 1920, '微信访问': 1340 },
+            { '小时': '18-19', 'APP访问': 47920, 'H5插件访问': 3420, '微信访问': 4130 },
+            { '小时': '19-20', 'APP访问': 57920, 'H5插件访问': 14920, '微信访问': 4650 },
+            { '小时': '20-21', 'APP访问': 12920, 'H5插件访问': 1230, '微信访问': 1203 },
+            { '小时': '21-22', 'APP访问': 13920, 'H5插件访问': 2420, '微信访问': 809 },
+            { '小时': '22-23', 'APP访问': 12920, 'H5插件访问': 2340, '微信访问': 1607 },
+            { '小时': '23-24', 'APP访问': 15230, 'H5插件访问': 1230, '微信访问': 870 }
+          ]
+        },
+        chartSettings: {
+          xAxisType: 'time',
+          area:true,
+          axisSite: { right: ['orderAmount']},
+        labelMap: {'orderCount': '订单数量', 'orderAmount': '订单金额'}},
+        chartData: {
+          columns: [],
+          rows: []
+        },
+        loading: false,
+        dataEmpty: false,
+        img_home_order,
+        img_home_today_amount,
+        img_home_yesterday_amount
+      }
+    },
+    created(){
+      this.initOrderCountDate();
+      this.getData();
+    },
+    methods:{
+      handleDateChange(){
+        this.getData();
+      },
+      initOrderCountDate(){
+        let start = new Date();
+        start.setFullYear(2020);
+        start.setMonth(11);
+        start.setDate(10);
+        const end = new Date();
+        end.setTime(start.getTime());
+        this.orderCountDate=[start,end];
+      },
+      getData(){
+        setTimeout(() => {
+          this.chartData = {
+            columns: ['date', 'orderCount','orderAmount'],
+            rows: []
+          };
+          for(let i=0;i<DATA_FROM_BACKEND.rows.length;i++){
+            let item=DATA_FROM_BACKEND.rows[i];
+            let currDate=str2Date(item.date);
+            let start=this.orderCountDate[0];
+            let end=this.orderCountDate[1];
+            if(currDate.getTime()>=start.getTime()&&currDate.getTime()<=end.getTime()){
+              this.chartData.rows.push(item);
+            }
           }
-        });
-      },
-      handleShowSkuEditDialog(index,row){
-        this.editSkuInfo.dialogVisible=true;
-        this.editSkuInfo.productId=row.id;
-        this.editSkuInfo.productSn=row.productSn;
-        this.editSkuInfo.productAttributeCategoryId = row.productAttributeCategoryId;
-        this.editSkuInfo.keyword=null;
-        fetchSkuStockList(row.id,{keyword:this.editSkuInfo.keyword}).then(response=>{
-          this.editSkuInfo.stockList=response.data;
-        });
-        if(row.productAttributeCategoryId!=null){
-          fetchProductAttrList(row.productAttributeCategoryId,{type:0}).then(response=>{
-            this.editSkuInfo.productAttr=response.data.list;
-          });
-        }
-      },
-      handleSearchEditSku(){
-        fetchSkuStockList(this.editSkuInfo.productId,{keyword:this.editSkuInfo.keyword}).then(response=>{
-          this.editSkuInfo.stockList=response.data;
-        });
-      },
-      handleEditSkuConfirm(){
-        if(this.editSkuInfo.stockList==null||this.editSkuInfo.stockList.length<=0){
-          this.$message({
-            message: '暂无sku信息',
-            type: 'warning',
-            duration: 1000
-          });
-          return
-        }
-        this.$confirm('是否要进行修改', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(()=>{
-          updateSkuStockList(this.editSkuInfo.productId,this.editSkuInfo.stockList).then(response=>{
-            this.$message({
-              message: '修改成功',
-              type: 'success',
-              duration: 1000
-            });
-            this.editSkuInfo.dialogVisible=false;
-          });
-        });
-      },
-      handleSearchList() {
-        this.listQuery.pageNum = 1;
-        this.getList();
-      },
-      handleAddProduct() {
-        this.$router.push({path:'/pms/addProduct'});
-      },
-      handleBatchOperate() {
-        if(this.operateType==null){
-          this.$message({
-            message: '请选择操作类型',
-            type: 'warning',
-            duration: 1000
-          });
-          return;
-        }
-        if(this.multipleSelection==null||this.multipleSelection.length<1){
-          this.$message({
-            message: '请选择要操作的商品',
-            type: 'warning',
-            duration: 1000
-          });
-          return;
-        }
-        this.$confirm('是否要进行该批量操作?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let ids=[];
-          for(let i=0;i<this.multipleSelection.length;i++){
-            ids.push(this.multipleSelection[i].id);
-          }
-          switch (this.operateType) {
-            case this.operates[0].value:
-              this.updatePublishStatus(1,ids);
-              break;
-            case this.operates[1].value:
-              this.updatePublishStatus(0,ids);
-              break;
-            case this.operates[2].value:
-              this.updateRecommendStatus(1,ids);
-              break;
-            case this.operates[3].value:
-              this.updateRecommendStatus(0,ids);
-              break;
-            case this.operates[4].value:
-              this.updateNewStatus(1,ids);
-              break;
-            case this.operates[5].value:
-              this.updateNewStatus(0,ids);
-              break;
-            case this.operates[6].value:
-              break;
-            case this.operates[7].value:
-              this.updateDeleteStatus(1,ids);
-              break;
-            default:
-              break;
-          }
-          this.getList();
-        });
-      },
-      handleSizeChange(val) {
-        this.listQuery.pageNum = 1;
-        this.listQuery.pageSize = val;
-        this.getList();
-      },
-      handleCurrentChange(val) {
-        this.listQuery.pageNum = val;
-        this.getList();
-      },
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-      handlePublishStatusChange(index, row) {
-        let ids = [];
-        ids.push(row.id);
-        this.updatePublishStatus(row.publishStatus, ids);
-      },
-      handleNewStatusChange(index, row) {
-        let ids = [];
-        ids.push(row.id);
-        this.updateNewStatus(row.newStatus, ids);
-      },
-      handleRecommendStatusChange(index, row) {
-        let ids = [];
-        ids.push(row.id);
-        this.updateRecommendStatus(row.recommandStatus, ids);
-      },
-      handleResetSearch() {
-        this.selectProductCateValue = [];
-        this.listQuery = Object.assign({}, defaultListQuery);
-      },
-      handleDelete(index, row){
-        this.$confirm('是否要进行删除操作?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let ids = [];
-          ids.push(row.id);
-          this.updateDeleteStatus(1,ids);
-        });
-      },
-      handleUpdateProduct(index,row){
-        this.$router.push({path:'/pms/updateProduct',query:{id:row.id}});
-      },
-      handleShowProduct(index,row){
-        console.log("handleShowProduct",row);
-      },
-      handleShowVerifyDetail(index,row){
-        console.log("handleShowVerifyDetail",row);
-      },
-      handleShowLog(index,row){
-        console.log("handleShowLog",row);
-      },
-      updatePublishStatus(publishStatus, ids) {
-        let params = new URLSearchParams();
-        params.append('ids', ids);
-        params.append('publishStatus', publishStatus);
-        updatePublishStatus(params).then(response => {
-          this.$message({
-            message: '修改成功',
-            type: 'success',
-            duration: 1000
-          });
-        });
-      },
-      updateNewStatus(newStatus, ids) {
-        let params = new URLSearchParams();
-        params.append('ids', ids);
-        params.append('newStatus', newStatus);
-        updateNewStatus(params).then(response => {
-          this.$message({
-            message: '修改成功',
-            type: 'success',
-            duration: 1000
-          });
-        });
-      },
-      updateRecommendStatus(recommendStatus, ids) {
-        let params = new URLSearchParams();
-        params.append('ids', ids);
-        params.append('recommendStatus', recommendStatus);
-        updateRecommendStatus(params).then(response => {
-          this.$message({
-            message: '修改成功',
-            type: 'success',
-            duration: 1000
-          });
-        });
-      },
-      updateDeleteStatus(deleteStatus, ids) {
-        let params = new URLSearchParams();
-        params.append('ids', ids);
-        params.append('deleteStatus', deleteStatus);
-        updateDeleteStatus(params).then(response => {
-          this.$message({
-            message: '删除成功',
-            type: 'success',
-            duration: 1000
-          });
-        });
-        this.getList();
+          this.dataEmpty = false;
+          this.loading = false
+        }, 1000)
       }
     }
   }
 </script>
-<style></style>
+<style scoped>
+  .app-container {
+    margin-top: 40px;
+    margin-left: 120px;
+    margin-right: 120px;
+  }
+
+  .total-layout {
+    margin-top: 20px;
+  }
+
+  .total-frame {
+    border: 1px solid #DCDFE6;
+    padding: 20px;
+    height: 100px;
+  }
+
+  .total-icon {
+    color: #409EFF;
+    width: 60px;
+    height: 60px;
+  }
+
+  .total-title {
+    position: relative;
+    font-size: 16px;
+    color: #909399;
+    left: 70px;
+    top: -50px;
+  }
+
+  .total-value {
+    position: relative;
+    font-size: 18px;
+    color: #606266;
+    left: 70px;
+    top: -40px;
+  }
+
+  .un-handle-layout {
+    margin-top: 20px;
+    border: 1px solid #DCDFE6;
+  }
+
+  .layout-title {
+    color: #606266;
+    padding: 15px 20px;
+    background: #F2F6FC;
+    font-weight: bold;
+  }
+
+  .un-handle-content {
+    padding: 20px 40px;
+  }
+
+  .un-handle-item {
+    border-bottom: 1px solid #EBEEF5;
+    padding: 10px;
+  }
+
+  .overview-layout {
+    margin-top: 20px;
+  }
+
+  .overview-item-value {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .overview-item-title {
+    margin-top: 10px;
+    text-align: center;
+  }
+
+  .out-border {
+    border: 1px solid #DCDFE6;
+  }
+
+  .statistics-layout {
+    margin-top: 20px;
+    border: 1px solid #DCDFE6;
+  }
+  .mine-layout {
+    position: absolute;
+    right: 140px;
+    top: 107px;
+    width: 250px;
+    height: 235px;
+  }
+  .address-content{
+    padding: 20px;
+    font-size: 18px
+  }
+</style>
 
 
